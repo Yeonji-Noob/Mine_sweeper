@@ -124,6 +124,9 @@ const incrementTimer = (): IncrementTimerAction => {
   return { type: IncrementTimer }
 };
 
+
+//immer.js로 가독성을 좋게 할 수 있긴 함....
+
 const reducer = (state = initialState, action: ReducerActions): ReducerState => {
   switch (action.type) {
     // 게임이 시작될때의 state
@@ -142,9 +145,41 @@ const reducer = (state = initialState, action: ReducerActions): ReducerState => 
       };
 
     // case OpenCell:
-    // case ClickMine: {
 
-    // }
+    case ClickMine: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] = CODE.CLICKED_MINE;
+      return {
+        ...state,
+        tableData,
+        halted: true,
+      };
+
+    }
+
+    case FlagCell: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] === CODE.MINE ? tableData[action.row][action.cell] = CODE.FLAG_MINE : tableData[action.row][action.cell] = CODE.FLAG;
+
+      return {
+        ...state,
+        tableData,
+      };
+    }
+
+    //  case QuestionCell: {
+
+    //  }
+
+    //  case NormalizeCell: {
+
+    //  }
+
+    //  case IncrementTimer: {
+
+    //  }
 
     default:
       return state;
