@@ -114,7 +114,7 @@ eval("\n\nif (false) {} else {\n  module.exports = __webpack_require__(/*! ./cjs
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
-eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\n// const initialState: ReducerState = {\n// }\n\n\n//# sourceURL=webpack://demi_mine_sweeper/./MineSearch.tsx?");
+eval("\nObject.defineProperty(exports, \"__esModule\", ({ value: true }));\nexports.CODE = void 0;\n// 값에 해당하는 코드를 정리\n/*\n💀: -7\n😶: -1\n❓︎: -2\n🚩: -3\n❓︎💀: -4\n🚩💀: -5\n👉️💀: -6\n📂: 0\n*/\nexports.CODE = {\n    MINE: -7,\n    NORMAL: -1,\n    QUESTION: -2,\n    FLAG: -3,\n    QUESTION_MINE: -4,\n    FLAG_MINE: -5,\n    CLICKED_MINE: -6,\n    OPENED: 0, //0 이상이라면 다 opened\n};\nvar initialState = {\n    tableData: [],\n    data: {\n        row: 0,\n        cell: 0,\n        mine: 0,\n    },\n    timer: 0,\n    result: '',\n    halted: true,\n    openedCount: 0\n};\n// 지뢰를 심는 함수\nvar plantMine = function (row, cell, mine) {\n    var candidate = Array(row * cell).fill(undefined).map(function (arr, i) { return i; });\n};\n\n\n//# sourceURL=webpack://demi_mine_sweeper/./MineSearch.tsx?");
 
 /***/ }),
 
