@@ -1,8 +1,8 @@
 import * as React from 'react';
-import { useEffect, useReducer, useMemo, Dispatch } from 'react';
+import { useEffect, useReducer, createContext, useMemo, Dispatch } from 'react';
 
 //interface들을 불러오기
-import { StartGameAction, OpenCellAction, ClickMineAction, FlagMineAction, QuestionCellAction, NormalizeCellAction, IncrementTimerAction, ReducerState, ReducerActions } from './model/interface'
+import { StartGameAction, OpenCellAction, ClickMineAction, FlagMineAction, QuestionCellAction, NormalizeCellAction, IncrementTimerAction, ReducerState, ReducerActions, Context } from './model/interface'
 
 
 // 값에 해당하는 코드를 정리
@@ -27,6 +27,16 @@ export const CODE = {
   OPENED: 0, //0 이상이라면 다 opened
 } as const;
 
+
+// 컴포넌트간 공유할 데이터를 작성
+// contextApi로 자손을 여러번 거치지 않고 한번에 보낼 수 있음
+export const TableContext = createContext<Context>({
+  tableData: [],
+  halted: true,
+  dispatch: () => { },
+})
+
+
 const initialState: ReducerState = {
   tableData: [],
   data: {
@@ -36,7 +46,10 @@ const initialState: ReducerState = {
   },
   timer: 0,
   result: '',
+
+  // 중지상태. 게임 시작시 false가 될 것임
   halted: true,
+
   openedCount: 0
 }
 
@@ -169,20 +182,72 @@ const reducer = (state = initialState, action: ReducerActions): ReducerState => 
       };
     }
 
-    //  case QuestionCell: {
+    case QuestionCell: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] === CODE.FLAG_MINE ? tableData[action.row][action.cell] = CODE.QUESTION_MINE : tableData[action.row][action.cell] = CODE.QUESTION;
 
-    //  }
+      return {
+        ...state,
+        tableData,
+      };
+    }
 
-    //  case NormalizeCell: {
+    case NormalizeCell: {
+      const tableData = [...state.tableData];
+      tableData[action.row] = [...state.tableData[action.row]];
+      tableData[action.row][action.cell] === CODE.QUESTION_MINE ? tableData[action.row][action.cell] = CODE.MINE : tableData[action.row][action.cell] = CODE.NORMAL;
 
-    //  }
+      return {
+        ...state,
+        tableData,
+      };
+    }
 
-    //  case IncrementTimer: {
-
-    //  }
+    case IncrementTimer: {
+      return {
+        ...state,
+        timer: state.timer + 1,
+      };
+    }
 
     default:
       return state;
 
   }
 }
+
+
+const MineSearch = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { tableData, halted, timer, result } = state;
+
+
+  // useMemo 사용
+  // useEffect(() => {}, [])랑 내부 구조 비슷함 
+  // 바뀌는 값인 tableData와 halted는 배열에도 보냄
+  const value = useMemo(() => ({ tableData, halted, dispatch }), [tableData, halted]);
+
+
+  useEffect(() => {
+    let timer: number;
+    if (halted === false) {
+      timer = window.setInterval(() => {
+        dispatch({ type: IncrementTimer });
+      }, 1000);
+    }
+    return () => { clearInterval(timer) };
+
+  }, [halted]);
+
+  return (
+    <TableContext.Provider value={value}>
+      <Form />
+      <div>{timer}</div>
+      <Table />
+      <div>{result}</div>
+    </TableContext.Provider>
+  );
+}
+
+export default MineSearch;

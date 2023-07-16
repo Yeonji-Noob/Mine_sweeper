@@ -1,5 +1,5 @@
 import { ClickMine, FlagCell, IncrementTimer, NormalizeCell, OpenCell, QuestionCell, StartGame } from "../MineSearch";
-
+import { Dispatch } from "react";
 
 
 //---------------------게임 Action 모음---------------------//
@@ -71,4 +71,14 @@ export interface ReducerState {
   result: string,
   halted: boolean,
   openedCount: number,
+}
+
+//----------------------------------------------------------//
+
+// contextApi 인터페이스
+
+export interface Context {
+  tableData: number[][],
+  halted: boolean,
+  dispatch: Dispatch<ReducerActions>,
 }
