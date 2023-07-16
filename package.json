@@ -1,0 +1,24 @@
+{
+  "name": "demi_mine_sweeper",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Yeonji-Noob",
+  "scripts": {
+    "dev": "webpack"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.1",
+    "ts-loader": "^9.4.4",
+    "webpack": "^5.88.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "dependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hot-loader": "^4.13.1",
+    "typescript": "^5.1.6"
+  }
+}
