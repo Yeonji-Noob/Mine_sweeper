@@ -5,7 +5,7 @@
   "license": "MIT",
   "author": "Yeonji-Noob",
   "scripts": {
-    "dev": "webpack"
+    "dev": "webpack serve --env development"
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.26",

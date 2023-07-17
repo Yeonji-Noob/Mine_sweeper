@@ -291,7 +291,6 @@ const MineSearch = () => {
       <Timer>{timer}</Timer>
       <Table />
       <BaseTable />
-      {/* <div>{result}</div> */}
     </TableContext.Provider>
   );
 }

@@ -136,10 +136,12 @@ export default memo(Td);
 
 const TD = styled.td`
   border: 2px outset #8ae0d8;
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   position: relative;
   text-align: center;
-  z-index: 20;
   cursor: pointer;
+  z-index: 20;
+  font-size: 12px;
+  font-weight: 600;
 `;

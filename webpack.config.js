@@ -32,7 +32,7 @@ module.exports = {
   },
   devServer: {
     devMiddleware: {
-      publicPath: '/dist'
+      publicPath: '/dist/'
     },
     static: {
       directory: path.resolve(__dirname)

@@ -54,6 +54,7 @@ const Button = styled.button`
   text-align: center;
   border: 0px;
   background-color: transparent;
+  cursor: pointer;
 `;
 
 const Emoji = styled.div`
