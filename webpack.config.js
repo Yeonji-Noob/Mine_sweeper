@@ -25,11 +25,11 @@ module.exports = {
   plugins: [
     new ReactRefreshWebpackPlugin(),
   ],
-  output: {
-    filename: '[name].js',
-    path: path.join(__dirname, 'dist'),
-    publicPath: '/dist',
-  },
+  // output: {
+  //   filename: '[name].js',
+  //   path: path.join(__dirname, 'dist'),
+  //   publicPath: '/dist',
+  // },
   devServer: {
     devMiddleware: {
       publicPath: '/dist/'
