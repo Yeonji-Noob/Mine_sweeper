@@ -1,4 +1,5 @@
-import { ClickMine, FlagCell, IncrementTimer, NormalizeCell, OpenCell, QuestionCell, StartGame } from "../MineSearch";
+import { CODE } from "../MineSearch";
+import { ClickMine, FlagCell, IncrementTimer, NormalizeCell, OpenCell, QuestionCell, StartGame } from "../action";
 import { Dispatch } from "react";
 
 
@@ -56,12 +57,16 @@ export interface IncrementTimerAction {
 // reducer에 한번에 넣기 위함
 export type ReducerActions = StartGameAction | OpenCellAction | ClickMineAction | FlagMineAction | QuestionCellAction | NormalizeCellAction | IncrementTimerAction;
 
+export type Codes = typeof CODE[keyof typeof CODE];
+
 //----------------------------------------------------------//
 
 // reduce 인터페이스
 export interface ReducerState {
   // 2차원 배열
-  tableData: number[][],
+
+  //값 부분만 가져오는 방법 (typeof --- [keyof typeof ---])
+  tableData: Codes[][],
   data: {
     row: number,
     cell: number,
@@ -78,7 +83,26 @@ export interface ReducerState {
 // contextApi 인터페이스
 
 export interface Context {
-  tableData: number[][],
+  tableData: Codes[][],
   halted: boolean,
   dispatch: Dispatch<ReducerActions>,
+}
+
+//----------------------------------------------------------//
+
+//Tr props
+export interface TrProps {
+  rowIndex: number;
+}
+
+//Td props
+export interface TdProps extends TrProps {
+  cellIndex: number;
+}
+
+//RealTd props
+export interface RealTdProps {
+  onClickTd: () => void;
+  onRightClickTd: (e: React.MouseEvent) => void;
+  data: Codes;
 }

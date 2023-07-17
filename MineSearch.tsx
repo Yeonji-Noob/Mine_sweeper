@@ -2,8 +2,11 @@ import * as React from 'react';
 import { useEffect, useReducer, createContext, useMemo, Dispatch } from 'react';
 
 //interface들을 불러오기
-import { StartGameAction, OpenCellAction, ClickMineAction, FlagMineAction, QuestionCellAction, NormalizeCellAction, IncrementTimerAction, ReducerState, ReducerActions, Context } from './model/interface'
+import { ReducerState, ReducerActions, Context, Codes } from './model/interface'
+import { StartGame, OpenCell, ClickMine, FlagCell, QuestionCell, NormalizeCell, IncrementTimer } from './action';
 
+import Form from './Form';
+import Table from './Table';
 
 // 값에 해당하는 코드를 정리
 /*
@@ -30,6 +33,7 @@ export const CODE = {
 
 // 컴포넌트간 공유할 데이터를 작성
 // contextApi로 자손을 여러번 거치지 않고 한번에 보낼 수 있음
+// 만들 때는 createContext로, 쓸 때는 useContext로 사용함
 export const TableContext = createContext<Context>({
   tableData: [],
   halted: true,
@@ -54,7 +58,7 @@ const initialState: ReducerState = {
 }
 
 // 지뢰를 심는 함수
-const plantMine = (row: number, cell: number, mine: number) => {
+const plantMine = (row: number, cell: number, mine: number): Codes[][] => {
 
   //배열 생성
   const candidate = Array(row * cell).fill(undefined).map((arr, i) => i);
@@ -70,9 +74,9 @@ const plantMine = (row: number, cell: number, mine: number) => {
 
 
   // 지뢰가 아닌 칸!
-  const data = [];
+  const data: Codes[][] = [];
   for (let i = 0; i < row; i++) {
-    const rowData: number[] = [];
+    const rowData: Codes[] = [];
     data.push(rowData);
     for (let j = 0; j < cell; j++) {
       rowData.push(CODE.NORMAL);
@@ -95,48 +99,6 @@ const plantMine = (row: number, cell: number, mine: number) => {
 // 함수표현식에는 끝에 세미콜론, 함수선언문에서는 쓰지 않는다.
 
 
-//액션 타입들
-
-export const StartGame = 'StartGame' as const;
-export const OpenCell = 'OpenCell' as const;
-export const ClickMine = 'ClickMine' as const;
-export const FlagCell = 'FlagCell' as const;
-export const QuestionCell = 'QuestionCell' as const;
-export const NormalizeCell = 'NormalizeCell' as const;
-export const IncrementTimer = 'IncrementTimer' as const;
-
-// as const로 묶어줄 수 있음
-
-
-
-const startGame = (row: number, cell: number, mine: number): StartGameAction => {
-  return { type: StartGame, row, cell, mine }
-};
-
-const openCell = (row: number, cell: number): OpenCellAction => {
-  return { type: OpenCell, row, cell }
-};
-
-const clickMine = (row: number, cell: number): ClickMineAction => {
-  return { type: ClickMine, row, cell }
-};
-
-const flagCell = (row: number, cell: number): FlagMineAction => {
-  return { type: FlagCell, row, cell }
-};
-
-const questionCell = (row: number, cell: number): QuestionCellAction => {
-  return { type: QuestionCell, row, cell }
-};
-
-const normalizeCell = (row: number, cell: number): NormalizeCellAction => {
-  return { type: NormalizeCell, row, cell }
-};
-
-const incrementTimer = (): IncrementTimerAction => {
-  return { type: IncrementTimer }
-};
-
 
 //immer.js로 가독성을 좋게 할 수 있긴 함....
 
@@ -157,7 +119,88 @@ const reducer = (state = initialState, action: ReducerActions): ReducerState => 
         timer: 0,
       };
 
-    // case OpenCell:
+    // 눌렀을 때 주변칸 여러개 열리는거
+    case OpenCell: {
+      const tableData = [...state.tableData];
+      tableData.forEach((row, i) => {
+        tableData[i] = [...row];
+      });
+      const checked: string[] = [];
+      let openedCount = 0;
+      console.log(tableData.length, tableData[0].length);
+      const checkAround = (row: number, cell: number) => {
+        console.log(row, cell);
+        if (row < 0 || row >= tableData.length || cell < 0 || cell >= tableData[0].length) {
+          return;
+        } // 상하좌우 없는칸은 안 열기
+        if (([CODE.OPENED, CODE.FLAG, CODE.FLAG_MINE, CODE.QUESTION_MINE, CODE.QUESTION] as Codes[]).includes(tableData[row][cell])) {
+          return;
+        } // 닫힌 칸만 열기
+        if (checked.includes(row + '/' + cell)) {
+          return;
+        } else {
+          checked.push(row + '/' + cell);
+        } // 한 번 연칸은 무시하기
+        let around = [
+          tableData[row][cell - 1], tableData[row][cell + 1],
+        ];
+        if (tableData[row - 1]) {
+          around = around.concat([tableData[row - 1][cell - 1], tableData[row - 1][cell], tableData[row - 1][cell + 1]]);
+        }
+        if (tableData[row + 1]) {
+          around = around.concat([tableData[row + 1][cell - 1], tableData[row + 1][cell], tableData[row + 1][cell + 1]]);
+        }
+        const count = around.filter(function (v) {
+          return ([CODE.MINE, CODE.FLAG_MINE, CODE.QUESTION_MINE] as Codes[]).includes(v);
+        }).length as Codes;
+        if (count === 0) { // 주변칸 오픈
+          if (row > -1) {
+            const near = [];
+            if (row - 1 > -1) {
+              near.push([row - 1, cell - 1]);
+              near.push([row - 1, cell]);
+              near.push([row - 1, cell + 1]);
+            }
+            near.push([row, cell - 1]);
+            near.push([row, cell + 1]);
+            if (row + 1 < tableData.length) {
+              near.push([row + 1, cell - 1]);
+              near.push([row + 1, cell]);
+              near.push([row + 1, cell + 1]);
+            }
+            near.forEach((n) => {
+              if (tableData[n[0]][n[1]] !== CODE.OPENED) {
+                checkAround(n[0], n[1]);
+              }
+            })
+          }
+        }
+        if (tableData[row][cell] === CODE.NORMAL) { // 내 칸이 닫힌 칸이면 카운트 증가
+          openedCount += 1;
+        }
+        tableData[row][cell] = count;
+      };
+
+      checkAround(action.row, action.cell);
+
+      let halted = false;
+      let result = '';
+
+      console.log(state.data.row * state.data.cell - state.data.mine, state.openedCount, openedCount);
+
+      if (state.data.row * state.data.cell - state.data.mine === state.openedCount + openedCount) { // 승리
+        halted = true;
+        result = `${state.timer}초만에 승리하셨습니다`;
+      }
+
+      return {
+        ...state,
+        tableData,
+        openedCount: state.openedCount + openedCount,
+        halted,
+        result,
+      };
+    }
 
     case ClickMine: {
       const tableData = [...state.tableData];
