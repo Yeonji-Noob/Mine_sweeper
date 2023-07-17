@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useContext, FC, memo } from 'react';
 import { TableContext } from './MineSearch';
 
-import { TrProps } from './model/interface';
+import { TrProps } from '../model/interface';
 
 import Td from './Td';
 
@@ -20,3 +20,4 @@ const Tr: FC<TrProps> = memo(({ rowIndex }) => {
 });
 
 export default Tr;
+

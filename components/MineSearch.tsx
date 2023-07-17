@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { useEffect, useReducer, createContext, useMemo, Dispatch } from 'react';
 
+import styled from 'styled-components';
+
 //interface들을 불러오기
-import { ReducerState, ReducerActions, Context, Codes } from './model/interface'
+import { ReducerState, ReducerActions, Context, Codes } from '../model/interface'
 import { StartGame, OpenCell, ClickMine, FlagCell, QuestionCell, NormalizeCell, IncrementTimer } from './action';
 
 import Form from './Form';
 import Table from './Table';
+import BaseTable from './BaseTable';
 
 // 값에 해당하는 코드를 정리
 /*
@@ -184,13 +187,12 @@ const reducer = (state = initialState, action: ReducerActions): ReducerState => 
       checkAround(action.row, action.cell);
 
       let halted = false;
-      let result = '';
-
+      let result = '😊';
       console.log(state.data.row * state.data.cell - state.data.mine, state.openedCount, openedCount);
 
       if (state.data.row * state.data.cell - state.data.mine === state.openedCount + openedCount) { // 승리
         halted = true;
-        result = `${state.timer}초만에 승리하셨습니다`;
+        halted == true ? result = '😎' : result = '😊';
       }
 
       return {
@@ -285,12 +287,20 @@ const MineSearch = () => {
 
   return (
     <TableContext.Provider value={value}>
-      <Form />
-      <div>{timer}</div>
+      <Form result={result} halted={halted} />
+      <Timer>{timer}</Timer>
       <Table />
-      <div>{result}</div>
+      <BaseTable />
+      {/* <div>{result}</div> */}
     </TableContext.Provider>
   );
 }
 
 export default MineSearch;
+
+
+const Timer = styled.div`
+
+  text-align: left;
+
+`;

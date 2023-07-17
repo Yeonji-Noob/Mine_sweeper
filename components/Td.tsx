@@ -1,35 +1,40 @@
 import * as React from 'react';
 import { Dispatch, FC, useContext, memo, useCallback } from 'react';
 import { TableContext, CODE } from './MineSearch';
-
-import { TdProps, RealTdProps, Codes } from './model/interface';
+import styled from 'styled-components';
+import { TdProps, RealTdProps, Codes } from '../model/interface';
 import { clickMine, flagMine, normalizeCell, openCell, questionCell } from './action';
+
+
 
 const getTdStyle = (code: Codes) => {
   switch (code) {
     case CODE.NORMAL:
     case CODE.MINE:
       return {
-        background: '#444',
+        background: '#75C1BA',
       };
     case CODE.CLICKED_MINE:
+      return {
+        background: 'red',
+      };
     case CODE.OPENED:
       return {
-        background: 'white',
+        background: '#60a19b',
       };
     case CODE.QUESTION_MINE:
     case CODE.QUESTION:
       return {
-        background: 'yellow',
+        background: '#75C1BA',
       };
     case CODE.FLAG_MINE:
     case CODE.FLAG:
       return {
-        background: 'red',
+        background: '#75C1BA',
       };
     default:
       return {
-        background: 'white',
+        background: '#60a19b',
       };
   }
 };
@@ -40,15 +45,15 @@ const getTdText = (code: Codes) => {
     case CODE.NORMAL:
       return '';
     case CODE.MINE:
-      return 'X';
+      return '';
     case CODE.CLICKED_MINE:
-      return '펑';
+      return '💣️';
     case CODE.FLAG_MINE:
     case CODE.FLAG:
-      return '!';
+      return '❗';
     case CODE.QUESTION_MINE:
     case CODE.QUESTION:
-      return '?';
+      return '❔';
     default:
       return code || '';
   }
@@ -118,12 +123,22 @@ const Td: FC<TdProps> = ({ rowIndex, cellIndex }) => {
 const RealTd: FC<RealTdProps> = memo(({ onClickTd, onRightClickTd, data }) => {
   // console.log('real td rendered');
   return (
-    <td
+    <TD
       style={getTdStyle(data)}
       onClick={onClickTd}
       onContextMenu={onRightClickTd}
-    >{getTdText(data)}</td>
+    >{getTdText(data)}
+    </TD>
   )
 });
 
 export default memo(Td);
+
+const TD = styled.td`
+  border: 2px outset #8ae0d8;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  text-align: center;
+  z-index: 20;
+`;

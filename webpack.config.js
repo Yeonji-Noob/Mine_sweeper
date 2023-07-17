@@ -13,9 +13,14 @@ module.exports = {
   },
   module: {
     rules: [{
-      test: /\.tsx?$/,
-      loader: 'ts-loader',
-    }]
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+      },
+      {
+        test: /\.(png|jpg)$/,
+        use: ["file-loader"]
+      }
+    ]
   },
   output: {
     filename: '[name].js',

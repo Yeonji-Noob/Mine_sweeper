@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { hot } from 'react-hot-loader/root';
 
-import MineSearch from './MineSearch';
+import MineSearch from './components/MineSearch';
 
 const Hot = hot(MineSearch); //HOC
 

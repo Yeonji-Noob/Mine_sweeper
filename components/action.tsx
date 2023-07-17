@@ -1,4 +1,4 @@
-import { StartGameAction, OpenCellAction, ClickMineAction, FlagMineAction, QuestionCellAction, NormalizeCellAction, IncrementTimerAction, ReducerState, ReducerActions, Context } from './model/interface'
+import { StartGameAction, OpenCellAction, ClickMineAction, FlagMineAction, QuestionCellAction, NormalizeCellAction, IncrementTimerAction, ReducerState, ReducerActions, Context } from '../model/interface'
 
 //액션 타입들
 export const StartGame = 'StartGame' as const;

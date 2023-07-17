@@ -1,5 +1,5 @@
-import { CODE } from "../MineSearch";
-import { ClickMine, FlagCell, IncrementTimer, NormalizeCell, OpenCell, QuestionCell, StartGame } from "../action";
+import { CODE } from "../components/MineSearch";
+import { ClickMine, FlagCell, IncrementTimer, NormalizeCell, OpenCell, QuestionCell, StartGame } from "../components/action";
 import { Dispatch } from "react";
 
 
