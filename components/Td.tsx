@@ -141,4 +141,5 @@ const TD = styled.td`
   position: relative;
   text-align: center;
   z-index: 20;
+  cursor: pointer;
 `;

@@ -300,7 +300,9 @@ export default MineSearch;
 
 
 const Timer = styled.div`
-
-  text-align: left;
-
+  text-align: right;
+  font-size: 24px;
+  color: red;
+  padding-right: 5px;
+  cursor: default;
 `;

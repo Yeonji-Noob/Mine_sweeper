@@ -12,15 +12,18 @@
     "awesome-typescript-loader": "^5.2.1",
     "ts-loader": "^9.4.4",
     "webpack": "^5.88.1",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
   },
   "dependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "file-loader": "^6.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hot-loader": "^4.13.1",
+    "react-refresh": "^0.14.0",
     "styled-components": "^6.0.4",
     "typescript": "^5.1.6"
   }

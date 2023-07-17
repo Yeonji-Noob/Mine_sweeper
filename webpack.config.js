@@ -1,5 +1,5 @@
 const path = require('path');
-const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   mode: 'development', // production
@@ -22,8 +22,21 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new ReactRefreshWebpackPlugin(),
+  ],
   output: {
     filename: '[name].js',
     path: path.join(__dirname, 'dist'),
+    publicPath: '/dist',
+  },
+  devServer: {
+    devMiddleware: {
+      publicPath: '/dist'
+    },
+    static: {
+      directory: path.resolve(__dirname)
+    },
+    hot: true
   }
-}
+};
