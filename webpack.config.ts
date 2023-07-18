@@ -25,7 +25,9 @@ const config: Configuration = {
     module: {
       rules: [{
         loader: 'babel-loader',
-        options: { plugins: ['react-refresh/babel'] },
+        options: { plugins: ['react-refresh/babel'], },
+        exclude: /node_modules/,
+        
       }, {
         test: /\.tsx?$/,
         loader: 'ts-loader',
@@ -34,7 +36,7 @@ const config: Configuration = {
     },
     plugins: [
       new ReactRefreshPlugin(),
-      new ForkTsCheckerWebpackPlugin()
+      new ForkTsCheckerWebpackPlugin(),
     ],
     output: {
       path: path.join(__dirname, 'dist'),
