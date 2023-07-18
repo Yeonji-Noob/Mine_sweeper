@@ -2,3 +2,8 @@
 command = "CI= npm run build"
 publish = "/dist"
 
+[[redirects]]
+from = "/demi_mine_sweeper/"
+to = "/demi_mine_sweeper/index.html"
+status = 200
+force = true
