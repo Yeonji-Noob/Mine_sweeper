@@ -2,7 +2,7 @@ const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
-  mode: 'development', // production
+  mode: 'production', // 개발모드로도 바꿀 수 있음
   devtool: 'eval', // hidden-source-map 
   resolve: {
     extensions: ['.jsx', '.js', '.tsx', '.ts'],
@@ -32,7 +32,7 @@ module.exports = {
   },
   devServer: {
     devMiddleware: {
-      publicPath: '/dist/'
+      publicPath: '/dist'
     },
     static: {
       directory: path.resolve(__dirname)

@@ -1,6 +1,6 @@
 [build]
-publish = "dist"
-command = "npm run dev"
+publish = "demi_mine_sweeper/dist"
+command = "npm run build"
 
 [[redirects]]
 from = "/*"
