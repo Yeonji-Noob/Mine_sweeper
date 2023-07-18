@@ -9,7 +9,7 @@ module.exports = {
   },
 
   entry: {
-    app: './client',
+    app: './src/client.tsx',
   },
   module: {
     rules: [{
