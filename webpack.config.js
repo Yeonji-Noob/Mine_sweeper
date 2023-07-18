@@ -7,7 +7,10 @@ module.exports = {
   resolve: {
     extensions: ['.jsx', '.js', '.tsx', '.ts'],
   },
-
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  },
   entry: {
     app: '/client.tsx',
   },
