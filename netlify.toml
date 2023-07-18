@@ -1,6 +1,7 @@
 [build]
+command = "CI= npm run build"
 publish = "demi_mine_sweeper/dist"
-command = "npm run build"
+
 
 [[redirects]]
 from = "/*"
