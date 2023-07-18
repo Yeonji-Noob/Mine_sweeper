@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "author": "Yeonji-Noob",
-  "homepage": "https://demi-game-mine-sweeper.netlify.app",
+  "homepage": "https://demi-game-mine-sweeper.netlify.app/",
   "scripts": {
     "dev": "webpack serve --env development",
     "start": "webpack --mode development",
